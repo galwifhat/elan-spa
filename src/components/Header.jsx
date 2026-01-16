@@ -151,7 +151,7 @@ export default function Header() {
           <div className="relative h-[350px] w-full bg-[#A67B7B] flex items-center justify-center">
             {/* Background Image */}
             <img
-              src="/src/assets/heroimage.jpg"
+              src="/elan-spa/heroimage.jpg"
               alt="Hero"
               className="absolute inset-0 w-full h-full object-cover"
             />
