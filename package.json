@@ -6,7 +6,7 @@
   "homepage": "https://galwifhat.github.io/elan-spa/",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "vite build --base=/elan-spa/",
     "lint": "eslint .",
     "preview": "vite preview",
     "predeploy": "npm run build",
