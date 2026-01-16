@@ -78,7 +78,7 @@ export default function BookingFlow() {
       `Please confirm my appointment. Thank you!`;
 
     // 3. Encode and Open WhatsApp
-    const whatsappUrl = `https://wa.me/254700252055?text=${encodeURIComponent(
+    const whatsappUrl = `https://wa.me/254722947807?text=${encodeURIComponent(
       message
     )}`;
 
@@ -152,14 +152,14 @@ export default function BookingFlow() {
   };
 
   return (
-    <div className="min-h-screen bg-[#A67B7B]  pt-20 pb-24">
+    <div className="min-h-screen bg-[#C8A2A2]  pt-20 pb-24">
       {/* Added more padding */}
       <div className="container mx-auto px-4 max-w-5xl">
         <div className="text-center mb-12">
           <h1 className="text-4xl font-serif text-white mb-2 uppercase tracking-widest">
             Reserve Your Moment
           </h1>
-          <p className="text-[#A67B7B] font-serif italic">
+          <p className="text-[#5D4037] font-serif italic">
             Step {currentStep} of 5
           </p>
         </div>

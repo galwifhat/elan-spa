@@ -12,6 +12,33 @@ export default function Shop() {
       ? ELAN_PRODUCTS
       : ELAN_PRODUCTS.filter((p) => p.category === filter);
 
+  // Generate placeholder images with consistent styling
+  const getProductImage = (product) => {
+    if (product.src) {
+      return product.src;
+    }
+    // Fallback to elegant placeholder
+    return `https://placehold.co/600x800/e3c5a8/5d4037?text=${encodeURIComponent(
+      product.name
+    )}&font=playfair`;
+  };
+
+  const handleWhatsAppOrder = (product) => {
+    const message = `Hi! I'm interested in purchasing the *${product.name}* (${product.price}) from Elan Spa. Can you assist me with ordering?`;
+    window.open(
+      `https://wa.me/254722947807?text=${encodeURIComponent(message)}`,
+      "_blank"
+    );
+  };
+
+  const handleSpecialistConsult = () => {
+    const message = `Hi! I was going through your website and I'm interested in your products. Can a specialist assist me?`;
+    window.open(
+      `https://wa.me/254722947807?text=${encodeURIComponent(message)}`,
+      "_blank"
+    );
+  };
+
   return (
     <div className="w-full bg-[#FAF9F6]">
       {/* 1. Header Section (Already handled by your Conditional Header) */}
@@ -27,7 +54,7 @@ export default function Shop() {
                 ${
                   filter === cat
                     ? "bg-[#D4AF37] border-[#D4AF37] text-white shadow-lg"
-                    : "bg-white border-gray-100 text-gray-400 hover:border-[#E3C5A8]"
+                    : "bg-white border-gray-100 text-gray-400 hover:border-[#E3C5A8] hover:text-[#5D4037]"
                 }`}
             >
               {cat}
@@ -40,19 +67,26 @@ export default function Shop() {
           {filteredProducts.map((product) => (
             <div
               key={product.id}
-              className="group bg-white rounded-3xl border border-gray-100 overflow-hidden hover:shadow-2xl transition-all duration-500"
+              className="group bg-white rounded-3xl border border-gray-100 overflow-hidden hover:shadow-2xl transition-all duration-500 hover:border-[#E3C5A8]"
             >
               {/* Image Area */}
-              <div className="relative h-80 bg-[#F5EFDF] overflow-hidden">
+              <div className="relative h-80 bg-gradient-to-br from-[#F5EFDF] to-[#E3C5A8] overflow-hidden">
                 <img
-                  src={`https://via.placeholder.com/600x800?text=${product.name}`}
+                  src={getProductImage(product)}
                   alt={product.name}
                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                  loading="lazy"
                 />
                 <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full flex items-center gap-1">
                   <Star size={12} className="fill-[#D4AF37] text-[#D4AF37]" />
                   <span className="text-[10px] font-bold tracking-tighter">
                     4.9
+                  </span>
+                </div>
+                {/* Product Category Badge */}
+                <div className="absolute top-4 left-4 bg-[#5D4037]/90 text-white px-3 py-1 rounded-full">
+                  <span className="text-[10px] uppercase tracking-widest font-bold">
+                    {product.category}
                   </span>
                 </div>
               </div>
@@ -68,9 +102,24 @@ export default function Shop() {
                   </h3>
                 </div>
 
-                <p className="text-sm text-gray-500 line-clamp-2 italic font-serif">
+                <p className="text-sm text-gray-500 line-clamp-2 italic font-serif min-h-[40px]">
                   {product.description}
                 </p>
+
+                {/* Features List (if available) */}
+                {product.features && product.features.length > 0 && (
+                  <ul className="space-y-1 pt-2">
+                    {product.features.slice(0, 3).map((feature, idx) => (
+                      <li
+                        key={idx}
+                        className="text-xs text-gray-600 flex items-center gap-2"
+                      >
+                        <div className="w-1 h-1 rounded-full bg-[#D4AF37]"></div>
+                        {feature}
+                      </li>
+                    ))}
+                  </ul>
+                )}
 
                 <div className="pt-4 flex items-center justify-between">
                   <span className="text-xl font-serif text-[#D4AF37]">
@@ -78,13 +127,10 @@ export default function Shop() {
                   </span>
                   <div className="w-32">
                     <AppointmentButton
-                      onClick={() =>
-                        window.open(
-                          `https://wa.me/254722947807?text=Hi! I'm interested in the ${product.name} (${product.price}).`,
-                          "_blank"
-                        )
-                      }
+                      onClick={() => handleWhatsAppOrder(product)}
+                      variant="secondary"
                     >
+                      <ShoppingBag size={16} className="mr-2" />
                       Buy Now
                     </AppointmentButton>
                   </div>
@@ -93,6 +139,22 @@ export default function Shop() {
             </div>
           ))}
         </div>
+
+        {/* Empty State */}
+        {filteredProducts.length === 0 && (
+          <div className="text-center py-20">
+            <ShoppingBag size={48} className="mx-auto text-gray-300 mb-4" />
+            <h3 className="text-xl font-serif text-gray-400 mb-2">
+              No products found in this category
+            </h3>
+            <button
+              onClick={() => setFilter("All")}
+              className="text-[#D4AF37] hover:text-[#B8941F] font-bold text-sm uppercase tracking-widest"
+            >
+              View all products →
+            </button>
+          </div>
+        )}
       </div>
 
       {/* 4. Bottom CTA: Boutique Experience */}
@@ -106,15 +168,17 @@ export default function Shop() {
             used in our professional treatments.
           </p>
           <div className="pt-4">
-            <a
-              href="https://wa.me/254700252055?text=Hi!%20I%20was%20going%20through%20your%20website%20and%20I%E2%80%99m%20interested%20in%20your%20products."
-              target="_blank"
-              rel="noopener noreferrer"
+            <button
+              onClick={handleSpecialistConsult}
+              className="inline-flex items-center gap-3 text-[#D4AF37] uppercase tracking-[0.3em] text-xs font-bold hover:gap-6 transition-all group"
               aria-label="Consult with a Specialist on WhatsApp"
-              className="inline-flex items-center gap-3 text-[#D4AF37] uppercase tracking-[0.3em] text-xs font-bold hover:gap-6 transition-all"
             >
-              Consult with a Specialist <ArrowRight size={16} />
-            </a>
+              Consult with a Specialist{" "}
+              <ArrowRight 
+                size={16} 
+                className="group-hover:translate-x-2 transition-transform" 
+              />
+            </button>
           </div>
         </div>
       </section>

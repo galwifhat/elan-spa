@@ -11,7 +11,8 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src"),
     },
   },
-  base: "/elan-spa/",
+  base: "/elan-spa/", // production
+  // base:"/", //development
   build: {
     outDir: "dist",
     assetsDir: "assets",

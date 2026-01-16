@@ -1,4 +1,5 @@
 // src/components/promo/PromoCard.jsx
+import { Link } from "react-router-dom";
 import BookingModal from "../bookingModal/BookingModal";
 import AppointmentButton from "../buttons/AppointmentButton";
 
@@ -24,13 +25,41 @@ const PromoCard = ({ promo }) => {
         )}
       </div>
       <div className="w-full">
-        <BookingModal
+        <Link
+          to="/book"
+          className="
+            inline-flex w-full items-center justify-center
+            rounded-lg
+            bg-[#D4AF37] text-white
+            font-medium uppercase
+            shadow-md
+            transition-all duration-300
+
+            /* balanced sizing */
+            px-5 py-3 text-sm
+            sm:px-6 sm:py-3 sm:text-base
+            lg:px-7 lg:py-3.5 lg:text-lg
+
+            tracking-wide
+
+            hover:bg-[#B8941F]
+            hover:shadow-lg
+            active:scale-[0.98]
+
+            focus:outline-none
+            focus:ring-2 focus:ring-[#D4AF37]/50
+          "
+        >
+          Book This Package
+        </Link>
+
+        {/* <BookingModal
           trigger={
             <AppointmentButton className="w-full justify-center py-3">
               Book This Package
             </AppointmentButton>
           }
-        />
+        /> */}
       </div>
     </div>
   );
